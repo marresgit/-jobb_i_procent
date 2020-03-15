@@ -1,14 +1,20 @@
-#!/usr/bin/env python
 
+from flask import Flask, escape, request
 
+app = Flask(__name__)
 
-import http.server
-import socketserver
+@app.route('/')
+def main():
 
-PORT = 8000
+    strTable = "<html><table><tr><th>Char</th><th>ASCII</th></tr>"
 
-Handler = http.server.SimpleHTTPRequestHandler
+    for num in range(33,48):
+     symb = chr(num)
+     strRW = "<tr><td>"+str(symb)+ "</td><td>"+str(num)+"</td></tr>"
+     strTable = strTable+strRW
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()
+    strTable = strTable+"</table></html>"
+    return(strTable)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
